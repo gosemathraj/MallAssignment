@@ -3,6 +3,8 @@ package com.example.iamsparsh.mallassignment.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.iamsparsh.mallassignment.R;
+import com.example.iamsparsh.mallassignment.adapters.RecyclerViewAdapter;
 import com.example.iamsparsh.mallassignment.models.Restaurant;
 
 import org.json.JSONArray;
@@ -32,12 +35,14 @@ import java.util.Map;
 public class Fragment_Home extends Fragment {
 
     private List<Restaurant> restaurantsList;
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home,container,false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
 
         getData();
 
@@ -94,8 +99,9 @@ public class Fragment_Home extends Fragment {
                                 restaurantsList.add(restaurant);
                             }
 
-                            int x = restaurantsList.size();
-                            int p =x;
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            recyclerView.setHasFixedSize(true);
+                            recyclerView.setAdapter(new RecyclerViewAdapter(restaurantsList,getContext()));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
